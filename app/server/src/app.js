@@ -1,7 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "../routes/users.js"
+import cors from "cors"; 
 const app = express();
+
+app.use(cors({origin: "http://localhost:5173"})); //to enable client side requests to server running on port 3000
+
 app.use(express.json());
 
 
