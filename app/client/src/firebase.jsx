@@ -17,6 +17,7 @@ export const auth = getAuth(app);
 
 //references:
 //https://firebase.google.com/docs/auth/web/password-auth#web
+//error codes: https://firebase.google.com/docs/auth/admin/errors 
 
 //register user
 export async function registerUser(email, password, fName, lName, loc){
@@ -41,4 +42,24 @@ export async function loginUser(email, password){
 //log out
 export async function logOut(){
   await signOut(auth);
+}
+
+//parse error codes 
+export function parseError(errorCode){
+  switch(errorCode){
+    //login
+    case "auth/invalid-credential":
+      return "Invalid email or password.";
+
+    //register
+    case "auth/email-already-in-use":
+      return "An account with this email already exists.";
+    case "auth/invalid-email":
+      return "Please enter a valid email";
+    case "auth/weak-password":
+        return "Password must be at least 6 characters";
+    
+    default:
+      return "Something went wrong. Please try again.";
+  }
 }
