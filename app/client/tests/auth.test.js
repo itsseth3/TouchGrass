@@ -33,6 +33,7 @@ describe("Firebase Tests", () => {
 
     it("Attempts to log validUser in with wrong password (should fail)", async() => {
         await expect(loginUser("testValidCreate@gmail.com", "12323153")).rejects.toMatchObject({code: "auth/invalid-credential"});
+        expect(auth.currentUser).toBeNull();
     });
 
     

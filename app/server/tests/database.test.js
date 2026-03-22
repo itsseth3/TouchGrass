@@ -37,6 +37,7 @@ describe("User Routes", () => {
         });
         expect(res.statusCode).toBe(200);
         expect(res.body.email).toBe("testuser001UPDATED@testusers.com");
+        expect(res.body.firstName).toBe("TestFirst001");
     });
 
     
@@ -45,9 +46,9 @@ describe("User Routes", () => {
         const res = await request(app)
             .post("/api/testusers")
             .send({
-                "uid": "testuid001",
+                "uid": "testuid002",
 
-                "email": "testuser001@testusers.com",
+                "email": "testuser001UPDATED@testusers.com",
                 "firstName": "TestFirst001",
                 "lastName": "TestLast001",
             });
@@ -68,7 +69,9 @@ describe("User Routes", () => {
         .delete("/api/testusers/testuid001");
 
         expect(res.statusCode).toBe(404);
-    });
+    }); 
+
+    //get nonexistent user by uid
 
     //clean up
     //delete user from create new
