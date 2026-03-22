@@ -27,7 +27,7 @@ export default function register() {
 
 
     //handle register
-    const handleRegister = async () => {
+const handleRegister = async () => {
         console.log("HANDLE REGISTER CALLED CALLED");
         try{
             await registerUser(email, password, fName, lName, location);
@@ -143,7 +143,7 @@ export default function register() {
                 <button type="button" onClick={handleManualLocationSearch}>Search Location</button>
 
                 {error && <p style={{color: "red"}}>{error}</p>}
-                <button type="submit">SIGN UP</button>
+                <button type="submit">CREATE ACCOUNT</button>
             </form>
             <p>Already have an account?
                 <button onClick={() => setMode("Login")}>Log in</button>

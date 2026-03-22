@@ -12,6 +12,7 @@ describe("User Routes", () => {
         .post("/api/testusers")
         .send({
             "uid": "testuid001",
+
             "email": "testuser001@testusers.com",
             "firstName": "TestFirst001",
             "lastName": "TestLast001",
@@ -20,9 +21,61 @@ describe("User Routes", () => {
         expect(res.body.email).toBe("testuser001@testusers.com");
     });
 
+    it("gets user by uid", async () => {
+        const res = await request(app)
+        .get("/api/testusers/testuid001");
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.uid).toBe("testuid001");
+    });
+
+    it("updates user email field", async () => {
+        const res = await request(app)
+        .patch("/api/testusers/testuid001")
+        .send({
+            "email": "testuser001UPDATED@testusers.com"
+        });
+        expect(res.statusCode).toBe(200);
+        expect(res.body.email).toBe("testuser001UPDATED@testusers.com");
+    });
+
+    
+
+    it("Attempts to create duplicate user (should fail)", async () => {
+        const res = await request(app)
+            .post("/api/testusers")
+            .send({
+                "uid": "testuid001",
+
+                "email": "testuser001@testusers.com",
+                "firstName": "TestFirst001",
+                "lastName": "TestLast001",
+            });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.error).toBe("Email already exists");
+    });
+
+
+    it("deletes user by uid", async () => {
+        const res = await request(app)
+        .delete("/api/testusers/testuid001");
+        
+        expect(res.statusCode).toBe(200);
+    });
+
+    it("Attempts to delete nonexistent user (should fail)", async () => {
+        const res = await request(app)
+        .delete("/api/testusers/testuid001");
+
+        expect(res.statusCode).toBe(404);
+    });
+
     //clean up
     //delete user from create new
     afterAll(async () => {
         await TestUser.deleteMany({uid: "testuid001"});
     });
 });
+
+
+

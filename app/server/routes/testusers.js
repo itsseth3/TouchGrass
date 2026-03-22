@@ -38,16 +38,35 @@ router.post("/", async (req, res) => {
     }
 });
 
-//post (update user)
-// router.post("/", async (req, res) => {
-//      try{
-//         const user = new TestUser(req.body);
-//         await user.save();
-//         res.json(user);
-//     } catch(err){
-//        handleDBError(res, err);
-//     }
-// });
+//patch (update user)
+router.patch("/:uid", async (req, res) => {
+     try{
+        const updatedUser = await TestUser.findOneAndUpdate(
+            {uid: req.params.uid},
+            {$set: req.body},
+            {new: true} //get updated document instead of original
+        );
+
+        res.status(200).json(updatedUser);
+    } catch(err){
+        handleDBError(res, err);
+    }
+});
+
+
+//delete user
+router.delete("/:uid", async(req, res) => {
+    try {
+        const deletedUser = await TestUser.findOneAndDelete(
+            {uid: req.params.uid}
+        );
+        if(!deletedUser){return res.status(404).json({message: "User not found."});}
+        res.status(200).json(deletedUser);
+        
+    } catch (err) {
+        handleDBError(res, err);
+    }
+});
 
 export default router;
 
