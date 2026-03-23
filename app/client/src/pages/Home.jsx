@@ -11,11 +11,22 @@ export default function Home(){
             navigate("/");
         };
 
+    const goToActivities = () => {
+        navigate("/activities");
+    };
+
+    const goToSettings = () => {
+        navigate("/settingsandpreferences");
+    };
+
     return(
         <div>
             <h1>HOME</h1>
 
             <button type="button" onClick={handleLogOut}>LOG OUT</button>
+            <button type="button" onClick={goToActivities}>ACTIVITIES</button>
+            <button type="button" onClick={goToSettings}>Settings and Preferences</button>
+
         </div>
     );
 }

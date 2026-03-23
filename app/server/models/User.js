@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     lastName: {type: String, required: true, default: ""},
     location: {
         type: {type: String, default: "Point"},
-        coordinates: {type: [Number], default: [0, 0] }, //long, lat
+        coordinates: {type: [Number], default: [0, 0] }, //lat, long
     },
     // preferences: {
     //     activityCategories: [{type: String}],
@@ -25,3 +25,4 @@ const userSchema = new mongoose.Schema({
 userSchema.index({location:"2dsphere"});
 
 export default mongoose.model("User", userSchema);
+export const TestUser = mongoose.model("TestUser", userSchema);

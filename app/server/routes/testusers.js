@@ -1,14 +1,14 @@
+//for tests
 import express from "express";
-import User from "../models/User.js";
+import { TestUser } from "../models/User.js";
 import handleDBError from "../utils/errors.js";
-
 
 const router = express.Router();
 
 //get user by uid
 router.get("/:uid", async (req, res) => {
     try{
-        const user = await User.findOne({uid: req.params.uid});
+        const user = await TestUser.findOne({uid: req.params.uid});
         res.json(user);
     } catch(err){
         handleDBError(res, err);
@@ -19,7 +19,7 @@ router.get("/:uid", async (req, res) => {
 //get 
 router.get("/", async (req, res) => {
     try{
-        const user = await User.find();
+        const user = await TestUser.find();
         res.json(user);
     } catch(err){
         handleDBError(res, err);
@@ -30,18 +30,18 @@ router.get("/", async (req, res) => {
 //post (create user)
 router.post("/", async (req, res) => {
      try{
-        const user = new User(req.body);
+        const user = new TestUser(req.body);
         await user.save();
         res.status(201).json(user);
     } catch(err){
-       handleDBError(res, err);
+        handleDBError(res, err);
     }
 });
 
 //patch (update user)
 router.patch("/:uid", async (req, res) => {
      try{
-        const updatedUser = await User.findOneAndUpdate(
+        const updatedUser = await TestUser.findOneAndUpdate(
             {uid: req.params.uid},
             {$set: req.body},
             {new: true} //get updated document instead of original
@@ -57,7 +57,7 @@ router.patch("/:uid", async (req, res) => {
 //delete user
 router.delete("/:uid", async(req, res) => {
     try {
-        const deletedUser = await User.findOneAndDelete(
+        const deletedUser = await TestUser.findOneAndDelete(
             {uid: req.params.uid}
         );
         if(!deletedUser){return res.status(404).json({message: "User not found."});}

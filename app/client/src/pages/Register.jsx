@@ -1,5 +1,5 @@
 import { use, useState } from "react";
-import { registerUser, loginUser } from "../firebase";
+import { registerUser, loginUser, parseError } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 
@@ -21,20 +21,19 @@ export default function register() {
             await loginUser(email, password);
             navigate("/home");
         } catch(err){
-            setError(err.message);
+            setError(parseError(err.code));
         }
     };
 
 
     //handle register
-    const handleRegister = async () => {
+const handleRegister = async () => {
         console.log("HANDLE REGISTER CALLED CALLED");
         try{
             await registerUser(email, password, fName, lName, location);
             navigate("/home");
         } catch(err){
-            setError(err.message);
-            console.log(err.message);
+            setError(parseError(err.code));
         }
     };
 
@@ -49,7 +48,7 @@ export default function register() {
                     console.log("COORDS: ", pos.coords);
                     setLocation({
                         type: "Point",
-                        coordinates: [long, lat] //reverse for google places
+                        coordinates: [lat, long] 
                     });
 
                     setReadableLocation(lat, long); //repopulate location field with result
@@ -83,7 +82,7 @@ export default function register() {
             console.log("LONG: ", lon);
             setLocationInput(res.data[0].display_name); //repopulate location field with result
 
-            setLocation({type: "Point", coordinates: [parseFloat(lon), parseFloat(lat)]});
+            setLocation({type: "Point", coordinates: [parseFloat(lat), parseFloat(lon)]});
             setLocationValid(true);
         } catch(err){
             setError("Error: Cannot search location");
@@ -112,15 +111,19 @@ export default function register() {
     if(mode == "Login"){
         return(
             <div>
-            <h1>TouchGrass</h1>
-            <form onSubmit= {(e) => {e.preventDefault(); handleLogin();}}>
-                <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
-                <input type="text" placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
-                <button type="submit">LOG IN</button>
-            </form>
-            <p>Don't have an account yet?
-                <button onClick={() => setMode("Register")}>SIGN UP</button>
-            </p>
+                <div>
+                    <h1>TouchGrass</h1>
+                    <form onSubmit= {(e) => {e.preventDefault(); handleLogin();}}>
+                        <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
+                        <input type="text" placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
+                        {error && <p style={{color: "red"}}>{error}</p>}
+                        <button type="submit">LOG IN</button>
+                    </form>
+                    <p>Don't have an account yet?
+                        <button onClick={() => setMode("Register")}>SIGN UP</button>
+                    </p>
+                </div>
+            
             </div>
         );
     }
@@ -139,7 +142,8 @@ export default function register() {
                 <button type="button" onClick={handleGeolocation}>Use Current Location</button>
                 <button type="button" onClick={handleManualLocationSearch}>Search Location</button>
 
-                <button type="submit">SIGN UP</button>
+                {error && <p style={{color: "red"}}>{error}</p>}
+                <button type="submit">CREATE ACCOUNT</button>
             </form>
             <p>Already have an account?
                 <button onClick={() => setMode("Login")}>Log in</button>

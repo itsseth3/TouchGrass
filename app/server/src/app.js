@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "../routes/users.js"
+import placesRoutes from "../routes/places.js"
+import testUserRoutes from "../routes/testusers.js";
 import cors from "cors"; 
 const app = express();
 
@@ -10,6 +12,10 @@ app.use(express.json());
 
 
 app.use("/api/users", userRoutes);
+
+app.use("/api/places", placesRoutes);
+
+app.use("/api/testusers", testUserRoutes);
 
 const uri = process.env.MONGO_URI;
 console.log("URI: ", uri);
