@@ -1,3 +1,9 @@
+export function catchAsyncErrors(fn) {
+  return function (req, res, next) {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+}
+
 export default function handleDBError(res, error){
     //duplicate key
     if(error.code == 11000){
