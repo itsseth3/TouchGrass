@@ -29,6 +29,7 @@ export async function registerUser(email, password, fName, lName, loc){
   console.log("NAME: ", fName, " ", lName);
   console.log("LOCATION: ", loc);
   console.log("URL: ", api.defaults.baseURL);
+  localStorage.setItem("userUID", user.uid);
   await api.post("/users", {uid: user.uid, email: user.email, firstName: fName, lastName: lName, location: loc});
   return user;
 }
@@ -36,12 +37,14 @@ export async function registerUser(email, password, fName, lName, loc){
 //user login
 export async function loginUser(email, password){
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  localStorage.setItem("userUID", userCredential.uid);
   return userCredential.user;
 }
 
 //log out
 export async function logOut(){
   await signOut(auth);
+  localStorage.removeItem("userUID");
 }
 
 //parse error codes 
