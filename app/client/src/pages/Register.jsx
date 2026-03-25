@@ -98,7 +98,7 @@ const handleRegister = async () => {
                 params: {lat: lat, lon: long, format:"json"},
             });
             console.log(res.data.address);
-            const city = res.data.address.town;
+            const city = res.data.address.city;
             const state = res.data.address.state;
             const country = res.data.address.country;
             const humanReadableLocation = city + ", " + state + ", " + country;

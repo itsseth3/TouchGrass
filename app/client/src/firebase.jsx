@@ -36,6 +36,10 @@ export async function registerUser(email, password, fName, lName, loc){
 //user login
 export async function loginUser(email, password){
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
+<<<<<<< Updated upstream
+=======
+  localStorage.setItem("userUID", userCredential.user.uid);
+>>>>>>> Stashed changes
   return userCredential.user;
 }
 
