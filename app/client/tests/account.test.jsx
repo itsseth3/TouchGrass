@@ -21,12 +21,12 @@ describe("Login and Register Tests", () => {
 
 
         //sign up button
-        fireEvent.click(screen.getByText('SIGN UP'));
+        fireEvent.click(screen.getByText('Sign Up'));
 
         //fill in form
-        fireEvent.change(screen.getByPlaceholderText('First Name'), {target: {value: 'TestFirstUI'}});
-        fireEvent.change(screen.getByPlaceholderText('Last Name'), {target: {value: 'TestLastUI'}});
-        fireEvent.change(screen.getByPlaceholderText('Email'), {target: {value: 'testUI@test.com'}});
+        fireEvent.change(screen.getByPlaceholderText('First'), {target: {value: 'TestFirstUI'}});
+        fireEvent.change(screen.getByPlaceholderText('Last'), {target: {value: 'TestLastUI'}});
+        fireEvent.change(screen.getByPlaceholderText('you@example.com'), {target: {value: 'testUI@test.com'}});
         fireEvent.change(screen.getByPlaceholderText('Password'), {target: {value: '123456'}});
 
          fireEvent.change(screen.getByPlaceholderText('Location'), {target: {value: 'Miami FL'}});
@@ -58,7 +58,7 @@ describe("Login and Register Tests", () => {
        );
 
         //fill in form
-        fireEvent.change(screen.getByPlaceholderText('Email'), {target: {value: 'testUI@test.com'}});
+        fireEvent.change(screen.getByPlaceholderText('you@example.com'), {target: {value: 'testUI@test.com'}});
         fireEvent.change(screen.getByPlaceholderText('Password'), {target: {value: '123456'}});
          
 
