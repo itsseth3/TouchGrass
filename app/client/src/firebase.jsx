@@ -1,5 +1,13 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  deleteUser,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from "firebase/auth";
 import api from "./api.jsx"
 
 const firebaseConfig = {
@@ -37,7 +45,7 @@ export async function registerUser(email, password, fName, lName, loc){
 //user login
 export async function loginUser(email, password){
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
-  localStorage.setItem("userUID", userCredential.uid);
+  localStorage.setItem("userUID", userCredential.user.uid);
   return userCredential.user;
 }
 
@@ -46,6 +54,37 @@ export async function logOut(){
   await signOut(auth);
   localStorage.removeItem("userUID");
 }
+
+//delete account in mongoDB and Firebase
+export async function deleteAccount(uid, password){
+  try {
+    if (!auth.currentUser) {
+      throw new Error("No authenticated user found.");
+    }
+
+    if (!password?.trim()) {
+      throw new Error("Enter your password to confirm account deletion.");
+    }
+
+    const credential = EmailAuthProvider.credential(auth.currentUser.email, password);
+    await reauthenticateWithCredential(auth.currentUser, credential);
+
+    await deleteUser(auth.currentUser);
+    await api.delete(`/users/${uid}`);
+    localStorage.removeItem("userUID");
+  } catch (error) {
+    if (error.code === "auth/invalid-credential" || error.code === "auth/wrong-password") {
+      throw new Error("Incorrect password. Please try again.");
+    }
+
+    if (error.code === "auth/requires-recent-login") {
+      throw new Error("Please confirm your password again before deleting your account.");
+    }
+
+    throw error;
+  }
+}
+
 
 //parse error codes 
 export function parseError(errorCode){

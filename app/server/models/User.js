@@ -13,12 +13,24 @@ const userSchema = new mongoose.Schema({
         type: { type: String, default: "Point" },
         coordinates: { type: [Number], default: [0, 0] }, //lat, long
     },
-    // preferences: {
-    //     activityCategories: [{type: String}],
-    //     budget: ,
-    //     timeNeeded: ,
-    //     searchRadius: 
-    // },
+    preferences: {
+        includedTypes: { type: [String], default: [] },
+        excludedTypes: { type: [String], default: [] },
+        priceLevels: {
+            type: [String],
+            enum: [
+                "PRICE_LEVEL_FREE",
+                "PRICE_LEVEL_INEXPENSIVE",
+                "PRICE_LEVEL_MODERATE",
+                "PRICE_LEVEL_EXPENSIVE",
+                "PRICE_LEVEL_VERY_EXPENSIVE",
+            ],
+            default: [],
+        },
+        minRating: { type: Number, min: 0, max: 5, default: 0 },
+        radiusMeters: { type: Number, min: 1, default: 16093 },
+        openNow: { type: Boolean, default: false },
+    },
 });
 
 //index by location to find other users by proximity 
