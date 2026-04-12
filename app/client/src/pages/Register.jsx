@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { registerUser, loginUser, parseError } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
@@ -48,8 +48,10 @@ const handleRegister = async () => {
                     console.log("COORDS: ", pos.coords);
                     setLocation({
                         type: "Point",
-                        coordinates: [lat, long] 
+                        coordinates: [long, lat] 
                     });
+                    setLocationValid(true);
+                    setError("");
 
                     setReadableLocation(lat, long); //repopulate location field with result
                 },
@@ -98,13 +100,15 @@ const handleRegister = async () => {
                 params: {lat: lat, lon: long, format:"json"},
             });
             console.log(res.data.address);
-            const city = res.data.address.town;
-            const state = res.data.address.state;
-            const country = res.data.address.country;
-            const humanReadableLocation = city + ", " + state + ", " + country;
+            const address = res.data.address || {};
+            const city = address.city || address.town || address.village || address.hamlet || address.county || "Current location";
+            const state = address.state || address.state_district;
+            const country = address.country;
+            const humanReadableLocation = [city, state, country].filter(Boolean).join(", ");
             setLocationInput(humanReadableLocation);
         } catch (error) {
             console.log("ERROR WITH REVERSE GEO CODE");
+            setLocationInput("Current location selected");
         }
     };
 
