@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import api from "../api.jsx";
 
 const PRICE_LEVELS = [
-  { value: "PRICE_LEVEL_FREE", label: "Free" },
-  { value: "PRICE_LEVEL_INEXPENSIVE", label: "Inexpensive" },
-  { value: "PRICE_LEVEL_MODERATE", label: "Moderate" },
-  { value: "PRICE_LEVEL_EXPENSIVE", label: "Expensive" },
-  { value: "PRICE_LEVEL_VERY_EXPENSIVE", label: "Very Expensive" },
+  { value: 0, label: "Free" },
+  { value: 1, label: "Inexpensive" },
+  { value: 2, label: "Moderate" },
+  { value: 3, label: "Expensive" },
+  { value: 4, label: "Very Expensive" },
 ];
 
 const formatPriceLevel = (level) => {
