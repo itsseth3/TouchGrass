@@ -242,6 +242,12 @@ export default function SettingsPrefs() {
     }
   };
 
+  const handleHomeClick = async () => {
+    await savePreferences();
+    await saveAccountChanges();
+    navigate("/home");
+  };
+
   const handleDeleteAccount = async () => {
     const uid = localStorage.getItem("userUID");
 
@@ -269,6 +275,13 @@ export default function SettingsPrefs() {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-green-50 to-blue-50 py-8 px-4">
+      <button type="button"
+       onClick={handleHomeClick} 
+       className="fixed top-4 left-4 mb-6 bg-emerald-700 text-white rounded-xl py-3 px-6 text-sm font-semibold
+        hover:bg-emerald-800 transition-colors">
+          Home
+      </button>
+
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-6">
           <aside className="w-full lg:w-72 p-2 self-start">
