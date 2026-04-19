@@ -10,11 +10,11 @@ const SUGGESTION_POOL = [
 ];
 
 const PRICE_LEVEL_OPTIONS = [
-  { value: "PRICE_LEVEL_FREE", label: "Free" },
-  { value: "PRICE_LEVEL_INEXPENSIVE", label: "Inexpensive" },
-  { value: "PRICE_LEVEL_MODERATE", label: "Moderate" },
-  { value: "PRICE_LEVEL_EXPENSIVE", label: "Expensive" },
-  { value: "PRICE_LEVEL_VERY_EXPENSIVE", label: "Very Expensive" },
+  { value: 0, label: "Free" },
+  { value: 1, label: "Inexpensive" },
+  { value: 2, label: "Moderate" },
+  { value: 3, label: "Expensive" },
+  { value: 4, label: "Very Expensive" },
 ];
 
 export default function SettingsPrefs() {
@@ -242,6 +242,12 @@ export default function SettingsPrefs() {
     }
   };
 
+  const handleHomeClick = async () => {
+    await savePreferences();
+    await saveAccountChanges();
+    navigate("/home");
+  };
+
   const handleDeleteAccount = async () => {
     const uid = localStorage.getItem("userUID");
 
@@ -269,6 +275,13 @@ export default function SettingsPrefs() {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-green-50 to-blue-50 py-8 px-4">
+      <button type="button"
+       onClick={handleHomeClick} 
+       className="fixed top-4 left-4 mb-6 bg-emerald-700 text-white rounded-xl py-3 px-6 text-sm font-semibold
+        hover:bg-emerald-800 transition-colors">
+          Home
+      </button>
+
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-6">
           <aside className="w-full lg:w-72 p-2 self-start">

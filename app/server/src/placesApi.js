@@ -33,7 +33,7 @@ export async function textSearch(query, location, radius, minPrice, maxPrice, op
         query,
         key: KEY,
         location: `${location.lat},${location.lng}`,
-        radius: radius * 1000, // convert to meters
+        radius: radius, //* 1000, // convert to meters
     };
     if (minPrice !== undefined) params.minprice = minPrice;
     if (maxPrice !== undefined) params.maxprice = maxPrice;
