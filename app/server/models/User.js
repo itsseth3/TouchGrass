@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
         type: { type: String, default: "Point" },
         coordinates: { type: [Number], default: [0, 0] }, //lat, long
     },
+    locationName: { type: String, default: "" },
     preferences: {
         includedTypes: { type: [String], default: [] },
         excludedTypes: { type: [String], default: [] },
