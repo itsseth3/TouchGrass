@@ -337,7 +337,7 @@ export default function EditPost() {
             </button>
             <button
               type="button"
-              onClick={() => navigate(`/posts/${postId}`)}
+              onClick={() => navigate("/community")}
               className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 rounded-lg transition"
             >
               Cancel

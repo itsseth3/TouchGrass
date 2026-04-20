@@ -320,8 +320,18 @@ export default function Activities() {
   return (
     <div className="min-h-screen bg-linear-to-b from-green-50 to-blue-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
+         <button
+            onClick={() => navigate("/home")}
+            className="text-green-600 hover:text-green-700 mb-4 flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Home
+          </button>
         <div className="flex flex-col items-center gap-4 mb-8 text-center">
           <div>
+           
             <h1 className="text-4xl font-bold text-slate-900">Activities</h1>
             <p className="text-slate-600 mt-2 max-w-2xl mx-auto">
               Personalized activity recommendations based on your saved preferences and location.

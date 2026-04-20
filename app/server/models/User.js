@@ -17,19 +17,47 @@ const userSchema = new mongoose.Schema({
         includedTypes: { type: [String], default: [] },
         excludedTypes: { type: [String], default: [] },
         priceLevels: {
-            type: [String],
+            type: [Number],
             enum: [
-                "PRICE_LEVEL_FREE",
-                "PRICE_LEVEL_INEXPENSIVE",
-                "PRICE_LEVEL_MODERATE",
-                "PRICE_LEVEL_EXPENSIVE",
-                "PRICE_LEVEL_VERY_EXPENSIVE",
+                0,
+                1,
+                2,
+                3,
+                4,
             ],
             default: [],
         },
         minRating: { type: Number, min: 0, max: 5, default: 0 },
         radiusMeters: { type: Number, min: 1, default: 16093 },
         openNow: { type: Boolean, default: false },
+    },
+    friends: {
+        type: [String],
+        default: [],
+    },
+    friendRequests: {
+        incoming: [ 
+            {
+                uid: { type: String, required: true }, //sender uid
+                status: {
+                    type: String,
+                    enum: ["pending", "accepted", "declined"],
+                    default: "pending",
+                },
+                timestamp: {type: Date, default: Date.now},
+            },
+        ],
+         outgoing: [
+            {
+                uid: { type: String, required: true }, //recipient uid
+                status: {
+                    type: String,
+                    enum: ["pending", "accepted", "declined"],
+                    default: "pending",
+                },
+                timestamp: {type: Date, default: Date.now},
+            },
+        ],
     },
 });
 
