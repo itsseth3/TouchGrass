@@ -44,7 +44,7 @@ export default function CreatePost() {
 
     try {
       const response = await axios.get(
-        `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=8&countrycodes=us&type=city,town,village`
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=8&countrycodes=us&type=city,town,village`
       );
       setLocationSuggestions(response.data);
     } catch (err) {
@@ -85,7 +85,26 @@ export default function CreatePost() {
         return;
       }
 
-      if (!formData.location) {
+      let location = formData.location;
+      if (!location && formData.locationName.trim()) {
+        const response = await axios.get(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+            formData.locationName
+          )}&format=json&limit=1&countrycodes=us&type=city,town,village`
+        );
+
+        if (response.data.length > 0) {
+          location = {
+            type: "Point",
+            coordinates: [
+              parseFloat(response.data[0].lon),
+              parseFloat(response.data[0].lat),
+            ],
+          };
+        }
+      }
+
+      if (!location) {
         setError("Please select a location");
         setLoading(false);
         return;
@@ -98,7 +117,7 @@ export default function CreatePost() {
         activity: formData.activity,
         image: formData.image,
         visibility: formData.visibility,
-        location: formData.location,
+        location,
       };
 
       const response = await api.post("/posts", postData);
@@ -196,18 +215,12 @@ export default function CreatePost() {
               <button
                 type="button"
                 onClick={() => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    location: {
-                      type: "Point",
-                      coordinates: [0, 0], // Placeholder - will be geocoded
-                    },
-                  }));
-                  setLocationSuggestions([]);
+                  // Use nominatim API to geocode the manual location name
+                  handleLocationSearch(formData.locationName);
                 }}
                 className="mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
               >
-                Use "{formData.locationName}"
+                Search for Location
               </button>
             )}
             
