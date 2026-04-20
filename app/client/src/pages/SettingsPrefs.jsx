@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api.jsx";
 import { deleteAccount } from "../firebase.jsx";
@@ -44,6 +44,39 @@ export default function SettingsPrefs() {
   const [locationSuggestions, setLocationSuggestions] = useState([]);
   const [error, setError] = useState("");
 
+  useEffect(() => { 
+    const loadUserData = async () => {
+      const uid = localStorage.getItem("userUID");
+      if(!uid)return;
+      try{
+        const response = await api.get(`/users/${uid}`);
+        const user = response.data;
+        if(!user)return;
+
+        setFirstName(user.firstName || "");
+        setLastName(user.lastName || "");
+        if(user.location) setLocation(user.location);
+        setLocationInput(user.locationName || "");
+
+        if(user.preferences){
+          setPreferences(user.preferences.includedTypes || []);
+          setExcludedPreferences(user.preferences.excludedTypes || []);
+          setMinRating(user.preferences.minRating || 0);
+
+          if(user.preferences.radiusMeters){
+            setSearchRadius((user.preferences.radiusMeters / 1609.34).toFixed(1)); //m back to miles
+          }
+          if(user.preferences.priceLevels){
+            setPriceLevels(user.preferences.priceLevels.map((p) => Number(p)));
+          }
+
+        }
+      }catch(err){ 
+        console.error("Failed to load user data:", err);
+      }
+    };
+    loadUserData();
+  }, []);
 
 
   const handlePrefInput = (e) => {
@@ -243,8 +276,6 @@ export default function SettingsPrefs() {
   };
 
   const handleHomeClick = async () => {
-    await savePreferences();
-    await saveAccountChanges();
     navigate("/home");
   };
 
