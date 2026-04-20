@@ -26,12 +26,6 @@ export default function Home(){
                 <button type="button" onClick={handleLogOut} className="w-50 bg-red-200 border-red-200 text-red-500 rounded-xl py-3 text-sm font-medium hover:bg-red-50 transition-colors">Log Out</button>
             </div>
 
-<<<<<<< HEAD
-            <button type="button" onClick={handleLogOut}>LOG OUT</button>
-            <button type="button" onClick={goToActivities}>ACTIVITIES</button>
-            <button type="button" onClick={goToSettings}>Settings and Preferences</button>
-            <button onClick={goToCommunity}>Community</button>
-=======
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                     <h2 className="text-2xl font-bold mb-4 text-gray-800">Activities</h2>
@@ -54,7 +48,6 @@ export default function Home(){
                     <button onClick={goToCommunity} className="w-full bg-emerald-700 text-white rounded-xl py-3 text-sm font-semibold hover:bg-emerald-800 transition-colors disabled:opacity-60 disabled:cursor-not-allowed">Go to Community</button>
                 </div>
             </div>
->>>>>>> 05591654bcadc7ac8dbfc995c8b356fb23d7dbd0
         </div>
     );
 }

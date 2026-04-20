@@ -198,4 +198,3 @@ router.patch("/:uid/friend-requests/:senderUid/decline", async (req, res) => {
 });
 
 export default router;
-

@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-export default function CommunityPage(){
-    return(
-        <div>
-            <h1>Community</h1>
-        </div>
-    );
-=======
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
@@ -291,5 +283,4 @@ export default function CommunityPage() {
       </div>
     </div>
   );
->>>>>>> 05591654bcadc7ac8dbfc995c8b356fb23d7dbd0
 }

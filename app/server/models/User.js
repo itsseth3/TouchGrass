@@ -12,8 +12,6 @@ const userSchema = new mongoose.Schema({
     location: {
         type: { type: String, default: "Point" },
         coordinates: { type: [Number], default: [0, 0] }, //lat, long
-<<<<<<< HEAD
-=======
     },
     preferences: {
         includedTypes: { type: [String], default: [] },
@@ -32,7 +30,6 @@ const userSchema = new mongoose.Schema({
         minRating: { type: Number, min: 0, max: 5, default: 0 },
         radiusMeters: { type: Number, min: 1, default: 16093 },
         openNow: { type: Boolean, default: false },
->>>>>>> 05591654bcadc7ac8dbfc995c8b356fb23d7dbd0
     },
 });
 
