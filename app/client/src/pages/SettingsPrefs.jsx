@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import api from "../api.jsx";
 import { deleteAccount } from "../firebase.jsx";
 
@@ -103,13 +104,10 @@ export default function SettingsPrefs() {
     }
 
     try {
-      const response = await api.get("/places/autocomplete", {
-        params: {
-          input: query,
-        },
-      });
-
-      setLocationSuggestions(response.data.predictions || []);
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=8&countrycodes=us&type=city,town,village`
+      );
+      setLocationSuggestions(response.data);
       setError("");
     } catch (err) {
       console.error("Location search error:", err);
@@ -117,31 +115,14 @@ export default function SettingsPrefs() {
     }
   };
 
-  const handleLocationSelect = async (selectedLocation) => {
-    try {
-      const response = await api.get("/places/details", {
-        params: {
-          place_id: selectedLocation.place_id,
-          fields: "geometry,formatted_address,name",
-        },
-      });
-      const result = response.data.result || response.data;
-      const locationResult = result.geometry?.location;
-      if (!locationResult) {
-        throw new Error("No location geometry returned.");
-      }
-
-      setLocation({
-        type: "Point",
-        coordinates: [locationResult.lng, locationResult.lat],
-      });
-      setLocationInput(result.formatted_address || selectedLocation.description || selectedLocation.place_id);
-      setLocationSuggestions([]);
-      setError("");
-    } catch (err) {
-      console.error("Location select error:", err);
-      setError("Error selecting location. Please try again.");
-    }
+  const handleLocationSelect = (selectedLocation) => {
+    setLocation({
+      type: "Point",
+      coordinates: [parseFloat(selectedLocation.lon), parseFloat(selectedLocation.lat)],
+    });
+    setLocationInput(selectedLocation.display_name);
+    setLocationSuggestions([]);
+    setError("");
   };
 
   const handleLocationInputChange = (e) => {
@@ -223,7 +204,6 @@ export default function SettingsPrefs() {
       ...(firstName.trim() && { firstName: firstName.trim() }),
       ...(lastName.trim() && { lastName: lastName.trim() }),
       ...(location && { location }),
-      ...(locationInput.trim() && { locationName: locationInput.trim() }),
     };
 
     if (Object.keys(payload).length === 0) {
@@ -388,14 +368,14 @@ export default function SettingsPrefs() {
                     />
                     {locationSuggestions.length > 0 && (
                       <div className="absolute z-10 w-full bg-white border border-slate-200 rounded-xl mt-1 shadow-lg max-h-48 overflow-y-auto">
-                        {locationSuggestions.map((locationOption) => (
+                        {locationSuggestions.map((locationOption, idx) => (
                           <button
-                            key={locationOption.place_id || locationOption.description}
+                            key={idx}
                             type="button"
                             onClick={() => handleLocationSelect(locationOption)}
                             className="w-full text-left px-4 py-2 hover:bg-emerald-100 border-b border-slate-200 last:border-b-0 text-sm"
                           >
-                            {locationOption.description || locationOption.display_name}
+                            {locationOption.display_name}
                           </button>
                         ))}
                       </div>

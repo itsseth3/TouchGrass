@@ -1,0 +1,127 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\korea\\TouchGrass\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\korea\\TouchGrass\\app\\client\\src\\pages\\Community||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\client\\src\\pages\\Community||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\korea\\TouchGrass\\app\\client\\src\\pages\\Home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\client\\src\\pages\\Home.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\korea\\TouchGrass\\app\\client\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\client\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\korea\\TouchGrass\\app\\client\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\client\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\korea\\TouchGrass\\app\\client\\src\\api.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\client\\src\\api.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\korea\\TouchGrass\\app\\server\\models\\User.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\server\\models\\User.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Community",
+              "DocumentMoniker": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\pages\\Community",
+              "RelativeDocumentMoniker": "app\\client\\src\\pages\\Community",
+              "ToolTip": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\pages\\Community",
+              "RelativeToolTip": "app\\client\\src\\pages\\Community",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-07T01:29:36.076Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Home.jsx",
+              "DocumentMoniker": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\pages\\Home.jsx",
+              "RelativeDocumentMoniker": "app\\client\\src\\pages\\Home.jsx",
+              "ToolTip": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\pages\\Home.jsx",
+              "RelativeToolTip": "app\\client\\src\\pages\\Home.jsx",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwCEAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2026-04-07T01:29:58.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "User.js",
+              "DocumentMoniker": "C:\\Users\\korea\\TouchGrass\\app\\server\\models\\User.js",
+              "RelativeDocumentMoniker": "app\\server\\models\\User.js",
+              "ToolTip": "C:\\Users\\korea\\TouchGrass\\app\\server\\models\\User.js",
+              "RelativeToolTip": "app\\server\\models\\User.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-03-31T20:21:38.581Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "App.jsx",
+              "DocumentMoniker": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\App.jsx",
+              "RelativeDocumentMoniker": "app\\client\\src\\App.jsx",
+              "ToolTip": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\App.jsx",
+              "RelativeToolTip": "app\\client\\src\\App.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2026-03-31T20:09:02.9Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "api.jsx",
+              "DocumentMoniker": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\api.jsx",
+              "RelativeDocumentMoniker": "app\\client\\src\\api.jsx",
+              "ToolTip": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\api.jsx",
+              "RelativeToolTip": "app\\client\\src\\api.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2026-03-31T20:08:41.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "App.css",
+              "DocumentMoniker": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\App.css",
+              "RelativeDocumentMoniker": "app\\client\\src\\App.css",
+              "ToolTip": "C:\\Users\\korea\\TouchGrass\\app\\client\\src\\App.css",
+              "RelativeToolTip": "app\\client\\src\\App.css",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADkAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-03-31T20:08:38.209Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

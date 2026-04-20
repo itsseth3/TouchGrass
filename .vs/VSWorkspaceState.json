@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\client",
+    "\\app\\client\\src",
+    "\\app\\client\\src\\pages",
+    "\\app\\server",
+    "\\app\\server\\routes",
+    "\\app\\server\\src",
+    "\\app\\server\\tests",
+    "\\app\\server\\utils"
+  ],
+  "SelectedNode": "\\app\\.gitignore",
+  "PreviewInSolutionExplorer": false
+}

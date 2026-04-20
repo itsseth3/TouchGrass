@@ -13,6 +13,17 @@ router.get(
   })
 );
 
+// GET posts by user UID (must come before /:postId to avoid route conflicts)
+router.get(
+  "/user/:uid",
+  catchAsyncErrors(async (req, res) => {
+    const posts = await Post.find({ uid: req.params.uid }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(posts);
+  })
+);
+
 // GET single post by ID
 router.get(
   "/:postId",
@@ -22,17 +33,6 @@ router.get(
       return res.status(404).json({ message: "Post not found" });
     }
     res.status(200).json(post);
-  })
-);
-
-// GET posts by user UID
-router.get(
-  "/user/:uid",
-  catchAsyncErrors(async (req, res) => {
-    const posts = await Post.find({ uid: req.params.uid }).sort({
-      createdAt: -1,
-    });
-    res.status(200).json(posts);
   })
 );
 
