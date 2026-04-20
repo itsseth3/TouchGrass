@@ -83,6 +83,124 @@ router.delete("/:uid", async(req, res) => {
 });
 
 // FRIEND REQUEST ROUTES
+<<<<<<< HEAD
+=======
+
+// Send friend request
+router.post("/:uid/friend-requests/:targetUid", async (req, res) => {
+    try {
+        const { uid, targetUid } = req.params;
+
+        if (uid === targetUid) {
+            return res.status(400).json({ message: "Cannot send friend request to yourself" });
+        }
+
+        const user = await User.findOne({ uid });
+        const targetUser = await User.findOne({ uid: targetUid });
+
+        if (!user || !targetUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Check if already friends
+        if (user.friends.includes(targetUid)) {
+            return res.status(400).json({ message: "Already friends" });
+        }
+
+        // Check if request already pending
+        const existingRequest = targetUser.friendRequests.incoming.find(
+            (req) => req.uid === uid && req.status === "pending"
+        );
+        if (existingRequest) {
+            return res.status(400).json({ message: "Friend request already sent" });
+        }
+
+        // Add incoming request to target user
+        targetUser.friendRequests.incoming.push({ uid, status: "pending" });
+        await targetUser.save();
+
+        // Add outgoing request to sender
+        user.friendRequests.outgoing.push({ uid: targetUid, status: "pending" });
+        await user.save();
+
+        res.status(200).json({ message: "Friend request sent" });
+    } catch (err) {
+        handleDBError(res, err);
+    }
+});
+
+// Accept friend request
+router.patch("/:uid/friend-requests/:senderUid/accept", async (req, res) => {
+    try {
+        const { uid, senderUid } = req.params;
+
+        const user = await User.findOne({ uid });
+        const senderUser = await User.findOne({ uid: senderUid });
+
+        if (!user || !senderUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Find and remove incoming request
+        user.friendRequests.incoming = user.friendRequests.incoming.filter(
+            (req) => req.uid !== senderUid
+        );
+
+        // Find and remove outgoing request from sender
+        senderUser.friendRequests.outgoing = senderUser.friendRequests.outgoing.filter(
+            (req) => req.uid !== uid
+        );
+
+        // Add to friends list
+        if (!user.friends.includes(senderUid)) {
+            user.friends.push(senderUid);
+        }
+        if (!senderUser.friends.includes(uid)) {
+            senderUser.friends.push(uid);
+        }
+
+        await user.save();
+        await senderUser.save();
+
+        res.status(200).json({ message: "Friend request accepted" });
+    } catch (err) {
+        handleDBError(res, err);
+    }
+});
+
+// Decline friend request
+router.patch("/:uid/friend-requests/:senderUid/decline", async (req, res) => {
+    try {
+        const { uid, senderUid } = req.params;
+
+        const user = await User.findOne({ uid });
+        const senderUser = await User.findOne({ uid: senderUid });
+
+        if (!user || !senderUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Remove incoming request
+        user.friendRequests.incoming = user.friendRequests.incoming.filter(
+            (req) => req.uid !== senderUid
+        );
+
+        // Remove outgoing request from sender
+        senderUser.friendRequests.outgoing = senderUser.friendRequests.outgoing.filter(
+            (req) => req.uid !== uid
+        );
+
+        await user.save();
+        await senderUser.save();
+
+        res.status(200).json({ message: "Friend request declined" });
+    } catch (err) {
+        handleDBError(res, err);
+    }
+});
+
+export default router;
+>>>>>>> d7aa19e22e746b956cdecc129c85b0aae46d3576
 
 // Send friend request
 router.post("/:uid/friend-requests/:targetUid", async (req, res) => {
