@@ -256,7 +256,9 @@ export default function FindFriends() {
                 </div>
               ))}
             </div>
+
           )}
+          
         </div>
       </div>
     </div>

@@ -21,7 +21,7 @@ app.use("/api/testusers", testUserRoutes);
 app.use("/api/posts", postsRoutes);
 
 const uri = process.env.MONGO_URI;
-console.log("URI: ", uri);
+// console.log("URI: ", uri);
 
 mongoose.connect(uri)
     .then(() => console.log("MongoDB connected"))
