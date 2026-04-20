@@ -242,14 +242,28 @@ export default function Activities() {
       const response = await api.get("/places/search", { params });
       const rawResults = response.data.results || [];
       const filteredResults = rawResults.filter((place) => {
+        //if no excluded types provided keep and check other filters
         if (!preferences.excludedTypes?.length) return true;
-        return !preferences.excludedTypes.some((excluded) => {
+        const isExcluded =preferences.excludedTypes.some((excluded) => {
           const lowerExcluded = excluded.toLowerCase();
           return (
             place.name?.toLowerCase().includes(lowerExcluded) ||
             place.types?.some((type) => type.toLowerCase().includes(lowerExcluded))
           );
         });
+        //remove if excluded 
+        if(isExcluded)return false;
+
+        //exclude if no rating or rating below minrating  
+        if(minRating && (place.rating === undefined || place.rating < minRating)) return false;
+
+        //filter by price levels, if level not included exclude suggestion 
+        const activePriceLevels = overridePriceLevels ?? priceLevels;
+        if(activePriceLevels.length > 0 && !activePriceLevels.includes(place.priceLevel)) return false;
+
+        //filter if user chooses to only view open places 
+        if((overrideOpenNow ?? openNow) && place.opening_hours?.open_now === false) return false;
+        return true;
       });
 
       if (!filteredResults.length) {
