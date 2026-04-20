@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import api from "../api.jsx";
 import { deleteAccount } from "../firebase.jsx";
 
@@ -10,11 +11,11 @@ const SUGGESTION_POOL = [
 ];
 
 const PRICE_LEVEL_OPTIONS = [
-  { value: 0, label: "Free" },
-  { value: 1, label: "Inexpensive" },
-  { value: 2, label: "Moderate" },
-  { value: 3, label: "Expensive" },
-  { value: 4, label: "Very Expensive" },
+  { value: "PRICE_LEVEL_FREE", label: "Free" },
+  { value: "PRICE_LEVEL_INEXPENSIVE", label: "Inexpensive" },
+  { value: "PRICE_LEVEL_MODERATE", label: "Moderate" },
+  { value: "PRICE_LEVEL_EXPENSIVE", label: "Expensive" },
+  { value: "PRICE_LEVEL_VERY_EXPENSIVE", label: "Very Expensive" },
 ];
 
 export default function SettingsPrefs() {
@@ -44,39 +45,6 @@ export default function SettingsPrefs() {
   const [locationSuggestions, setLocationSuggestions] = useState([]);
   const [error, setError] = useState("");
 
-  useEffect(() => { 
-    const loadUserData = async () => {
-      const uid = localStorage.getItem("userUID");
-      if(!uid)return;
-      try{
-        const response = await api.get(`/users/${uid}`);
-        const user = response.data;
-        if(!user)return;
-
-        setFirstName(user.firstName || "");
-        setLastName(user.lastName || "");
-        if(user.location) setLocation(user.location);
-        setLocationInput(user.locationName || "");
-
-        if(user.preferences){
-          setPreferences(user.preferences.includedTypes || []);
-          setExcludedPreferences(user.preferences.excludedTypes || []);
-          setMinRating(user.preferences.minRating || 0);
-
-          if(user.preferences.radiusMeters){
-            setSearchRadius((user.preferences.radiusMeters / 1609.34).toFixed(1)); //m back to miles
-          }
-          if(user.preferences.priceLevels){
-            setPriceLevels(user.preferences.priceLevels.map((p) => Number(p)));
-          }
-
-        }
-      }catch(err){ 
-        console.error("Failed to load user data:", err);
-      }
-    };
-    loadUserData();
-  }, []);
 
 
   const handlePrefInput = (e) => {
@@ -103,13 +71,10 @@ export default function SettingsPrefs() {
     }
 
     try {
-      const response = await api.get("/places/autocomplete", {
-        params: {
-          input: query,
-        },
-      });
-
-      setLocationSuggestions(response.data.predictions || []);
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=8&countrycodes=us&type=city,town,village`
+      );
+      setLocationSuggestions(response.data);
       setError("");
     } catch (err) {
       console.error("Location search error:", err);
@@ -117,31 +82,14 @@ export default function SettingsPrefs() {
     }
   };
 
-  const handleLocationSelect = async (selectedLocation) => {
-    try {
-      const response = await api.get("/places/details", {
-        params: {
-          place_id: selectedLocation.place_id,
-          fields: "geometry,formatted_address,name",
-        },
-      });
-      const result = response.data.result || response.data;
-      const locationResult = result.geometry?.location;
-      if (!locationResult) {
-        throw new Error("No location geometry returned.");
-      }
-
-      setLocation({
-        type: "Point",
-        coordinates: [locationResult.lng, locationResult.lat],
-      });
-      setLocationInput(result.formatted_address || selectedLocation.description || selectedLocation.place_id);
-      setLocationSuggestions([]);
-      setError("");
-    } catch (err) {
-      console.error("Location select error:", err);
-      setError("Error selecting location. Please try again.");
-    }
+  const handleLocationSelect = (selectedLocation) => {
+    setLocation({
+      type: "Point",
+      coordinates: [parseFloat(selectedLocation.lon), parseFloat(selectedLocation.lat)],
+    });
+    setLocationInput(selectedLocation.display_name);
+    setLocationSuggestions([]);
+    setError("");
   };
 
   const handleLocationInputChange = (e) => {
@@ -223,7 +171,6 @@ export default function SettingsPrefs() {
       ...(firstName.trim() && { firstName: firstName.trim() }),
       ...(lastName.trim() && { lastName: lastName.trim() }),
       ...(location && { location }),
-      ...(locationInput.trim() && { locationName: locationInput.trim() }),
     };
 
     if (Object.keys(payload).length === 0) {
@@ -275,10 +222,6 @@ export default function SettingsPrefs() {
     }
   };
 
-  const handleHomeClick = async () => {
-    navigate("/home");
-  };
-
   const handleDeleteAccount = async () => {
     const uid = localStorage.getItem("userUID");
 
@@ -306,13 +249,6 @@ export default function SettingsPrefs() {
 
   return (
     <div className="min-h-screen bg-linear-to-b from-green-50 to-blue-50 py-8 px-4">
-      <button type="button"
-       onClick={handleHomeClick} 
-       className="fixed top-4 left-4 mb-6 bg-emerald-700 text-white rounded-xl py-3 px-6 text-sm font-semibold
-        hover:bg-emerald-800 transition-colors">
-          Home
-      </button>
-
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-6">
           <aside className="w-full lg:w-72 p-2 self-start">
@@ -388,14 +324,14 @@ export default function SettingsPrefs() {
                     />
                     {locationSuggestions.length > 0 && (
                       <div className="absolute z-10 w-full bg-white border border-slate-200 rounded-xl mt-1 shadow-lg max-h-48 overflow-y-auto">
-                        {locationSuggestions.map((locationOption) => (
+                        {locationSuggestions.map((locationOption, idx) => (
                           <button
-                            key={locationOption.place_id || locationOption.description}
+                            key={idx}
                             type="button"
                             onClick={() => handleLocationSelect(locationOption)}
                             className="w-full text-left px-4 py-2 hover:bg-emerald-100 border-b border-slate-200 last:border-b-0 text-sm"
                           >
-                            {locationOption.description || locationOption.display_name}
+                            {locationOption.display_name}
                           </button>
                         ))}
                       </div>
