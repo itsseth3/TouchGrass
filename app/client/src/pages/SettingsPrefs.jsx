@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../api.jsx";
@@ -45,6 +45,38 @@ export default function SettingsPrefs() {
   const [locationSuggestions, setLocationSuggestions] = useState([]);
   const [error, setError] = useState("");
 
+  //so form values will persist and load with/display current values
+  useEffect(() => {
+    const loadUserData = async () => {
+      const uid = localStorage.getItem("userUID");
+      if(!uid)return;
+      try {
+        const res = await api.get(`/users/${uid}`);
+        const user = res.data;
+        if(!user)return;
+        setFirstName(user.firstName || "");
+        setLastName(user.lastName || "");
+        if (user.location) setLocation(user.location);
+        setLocationInput(user.locationName || "");
+
+        if(user.preferences){
+          setPreferences(user.preferences.includedTypes || []);
+          setExcludedPreferences(user.preferences.excludedTypes || []);
+          setMinRating(user.preferences.minRating || 0);
+          if(user.preferences.radiusMeters){
+            setSearchRadius(Math.round(user.preferences.radiusMeters / 1609.34)); //Convert meters to miles
+          }
+          if(user.preferences.priceLevels){
+            setPriceLevels(user.preferences.priceLevels);
+          }
+
+        }
+      } catch (error) {
+        console.error("Failed to load user data:", error);
+      }
+    };
+    loadUserData();
+  }, []);
 
 
   const handlePrefInput = (e) => {
@@ -63,7 +95,7 @@ export default function SettingsPrefs() {
     }
   };
 
-
+//search for cities with OpenStreetMap
   const handleLocationSearch = async (query) => {
     if (query.length < 2) {
       setLocationSuggestions([]);
@@ -82,6 +114,7 @@ export default function SettingsPrefs() {
     }
   };
 
+  //handle selecting location from autocomplete suggestions, convert to GeoJSON format to store in MongoDB 
   const handleLocationSelect = (selectedLocation) => {
     setLocation({
       type: "Point",
@@ -92,6 +125,7 @@ export default function SettingsPrefs() {
     setError("");
   };
 
+  //clear when user starts typing to find a new location 
   const handleLocationInputChange = (e) => {
     const { value } = e.target;
     setLocationInput(value);
@@ -99,6 +133,7 @@ export default function SettingsPrefs() {
     handleLocationSearch(value);
   };
 
+  //add preference to included list and prevent duplicates 
   const addPreference = (pref) => {
     if (!preferences.includes(pref)) {
       setPreferences([...preferences, pref]);
@@ -111,6 +146,7 @@ export default function SettingsPrefs() {
     setPreferences(preferences.filter((p) => p !== pref));
   };
 
+  //add preference when user presses enter
   const handlePrefKeyDown = (e) => {
     if (e.key === "Enter" && prefInput.trim()) {
       addPreference(prefInput.trim());
@@ -151,6 +187,7 @@ export default function SettingsPrefs() {
     }
   };
 
+  //toggle price level in list 
   const togglePriceLevel = (level) => {
     setPriceLevels((prev) =>
       prev.includes(level)
@@ -159,6 +196,7 @@ export default function SettingsPrefs() {
     );
   };
 
+  //save account info, only update changed field and send patch request
   const saveAccountChanges = async () => {
     const uid = localStorage.getItem("userUID");
 
@@ -191,10 +229,11 @@ export default function SettingsPrefs() {
     }
   };
 
+  //save preference changes, convert miles back to meters for search radius
   const savePreferences = async () => {
     const uid = localStorage.getItem("userUID");
 
-    if (!uid) {
+    if (!uid) { 
       setSaveStatus("No signed-in user found.");
       return;
     }
