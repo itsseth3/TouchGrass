@@ -117,7 +117,7 @@ export default function ViewPost() {
       <div className="max-w-3xl mx-auto">
         {/* Back button */}
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/community")}
           className="mb-6 text-green-600 hover:text-green-700 font-semibold"
         >
           ← Back
